@@ -2,14 +2,37 @@
   <img src="./icons/banner.png" alt="AddFree Banner" width="100%" />
 </p>
 
+<p align="center">
+  <a href="https://github.com/rayhanvision-a11y/AddFree/archive/refs/heads/main.zip">
+    <img src="https://img.shields.io/badge/⬇️_Download_Latest_ZIP-Direct_Download-2ea44f?style=for-the-badge&logo=github&logoColor=white" alt="Download ZIP" />
+  </a>
+  &nbsp;
+  <a href="https://github.com/rayhanvision-a11y/AddFree/releases">
+    <img src="https://img.shields.io/badge/🏷️_Releases-v1.0.0-blue?style=for-the-badge" alt="Releases" />
+  </a>
+  &nbsp;
+  <img src="https://img.shields.io/badge/Chrome-Manifest_V3-brightgreen?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Manifest V3" />
+</p>
+
 # AddFree: Chrome Ad & Tracker Blocker
 
 A fast, lightweight, and powerful Manifest V3 Chrome Extension that blocks intrusive video ads, popups, redirects, invisible click-trap overlays, cookie consent banners, and tracking parameters across streaming, download, and everyday websites. No external build tool or bundler required.
 
-## Installation
-1. Open Google Chrome and navigate to `chrome://extensions`
-2. Enable **Developer mode** in the top-right corner
-3. Click **Load unpacked** and select the `AddFree` directory
+## 🚀 Quick Download & Install (Chrome)
+
+### Option 1: Direct ZIP Download (Easiest for Everyone)
+1. **[Click here to Download AddFree ZIP](https://github.com/rayhanvision-a11y/AddFree/archive/refs/heads/main.zip)**
+2. Unzip (extract) the downloaded `AddFree-main.zip` folder on your computer.
+3. In Chrome, open `chrome://extensions` in the address bar.
+4. Turn ON **Developer mode** toggle in the top-right corner.
+5. Click **Load unpacked** in the top-left and select the extracted folder.
+
+### Option 2: Git Clone (One-command updates)
+```bash
+git clone https://github.com/rayhanvision-a11y/AddFree.git
+```
+* Load the folder in `chrome://extensions` with **Load unpacked**.
+* To update anytime later, simply run `git pull` inside the folder and click **Reload (🔄)** on Chrome Extensions.
 
 ## Architecture Overview
 | Layer | File(s) | Description |
