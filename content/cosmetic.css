@@ -1,0 +1,161 @@
+/* Generic ad selectors: specific ad signatures preserving legitimate layout */
+html:not([data-addfree-off]) :is(
+  ins.adsbygoogle,
+  [id^="div-gpt-ad"],
+  [id^="google_ads_"],
+  [id^="aswift_"],
+  iframe[id^="google_ads_iframe"],
+  iframe[src*="doubleclick.net"],
+  iframe[src*="googlesyndication.com"],
+  iframe[src*="exoclick"],
+  iframe[src*="juicyads"],
+  iframe[src*="adsterra"],
+  iframe[src*="/ads/"],
+  [data-ad-slot],
+  [data-ad-client],
+  [data-adzone],
+  [data-zoneid],
+  .adsbygoogle,
+  .ad-banner,
+  .ad-container,
+  .ad-wrapper,
+  .ad-slot,
+  .ads-banner,
+  .adsbox,
+  .adbox,
+  .banner-ads,
+  .sticky-ad,
+  .sticky-ads,
+  .float-ad,
+  .floating-ad,
+  .popup-ad,
+  .video-ads,
+  .overlay-ad,
+  .ad-overlay,
+  .advertisement,
+  .advertising,
+  .sponsored-ad,
+  #ad-banner,
+  #ad-container,
+  #ad-wrapper,
+  #sticky-ad,
+  #floating-ad,
+  #adsbox,
+  [class^="ads-"],
+  [id^="ads-"],
+  [class*=" ad-unit"],
+  [class^="ad-unit"],
+  a[href*="/aff_c?"],
+  a[href*="//ad.a-ads.com"],
+  div[id^="taboola-"],
+  div[id^="mgid_"],
+  div[id^="ScriptRoot"],
+  .OUTBRAIN
+):not([style*="-999"]):not([style*="-1000"]) {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* Transparent click-trap overlays (aarems / llvpn, etc.) */
+html:not([data-addfree-off]) :is(
+  div[style*="data:image/gif;base64,R0lGODlhAQAB"],
+  div[style*="background-image: url(\"data:image/gif;base64,R0lGODlhAQAB"]
+) {
+  display: none !important;
+  pointer-events: none !important;
+}
+
+/* Anti-adblock warning boxes on movie sites (movies4u, etc.) */
+html:not([data-addfree-off]) :is(
+  .warn-box,
+  .warn-box-inner,
+  [class*="adblock-warn"],
+  [id*="adblock-warn"]
+) {
+  display: none !important;
+}
+
+/* Ensure hidden download links behind anti-adblock warnings are unhidden */
+html:not([data-addfree-off]) :is(
+  .download-links-div,
+  .warn-box ~ .download-links-div,
+  .warn-box.hide-popup ~ .download-links-div,
+  [class*="download-links"]
+) {
+  display: block !important;
+}
+
+/* Floating social and Telegram buttons blocker */
+html[data-addfree-hide-social] :is(
+  .floating-telegram-btn,
+  .join-tg,
+  .buttontg,
+  a[href*="t.me/"],
+  a[href*="telegram.dog/"],
+  [class*="telegram-floating"],
+  [id*="telegram-floating"],
+  [class*="join-telegram"],
+  [id*="join-telegram"]
+) {
+  display: none !important;
+  pointer-events: none !important;
+}
+
+/* Fake video player overlays and streaming traps */
+.fake-player,
+.jw-preview-overlay,
+div[class*="play-overlay"],
+div[id*="player-overlay"] {
+  display: none !important;
+  pointer-events: none !important;
+}
+
+/* Restore normal body scroll when overlays lock scrolling */
+html[data-addfree-unlock] body,
+html[data-addfree-unlock] {
+  overflow: auto !important;
+}
+
+/* Cookie & CMP Consent Overlays (AdGuard Annoyances equivalent) */
+html:not([data-addfree-off]) :is(
+  #onetrust-consent-sdk,
+  .onetrust-pc-dark-filter,
+  #CookiebotWidget,
+  #CybotCookiebotDialog,
+  #CybotCookiebotDialogBodyUnderlay,
+  #didomi-host,
+  #didomi-popup,
+  .didomi-popup-backdrop,
+  .qc-cmp2-container,
+  .qc-cmp-cleanslate,
+  .cmplz-cookiebanner,
+  #truste-consent-track,
+  .truste_box_overlay,
+  .truste_overlay,
+  .fc-consent-root,
+  .fc-dialog-overlay,
+  #cookie-notice,
+  #cookie-law-info-bar,
+  .cookie-alert,
+  [id*="cookie-banner" i],
+  [class*="cookie-consent" i],
+  [class*="cookie-banner" i],
+  [id*="gdpr-consent" i],
+  [class*="gdpr-banner" i],
+  .cc-window,
+  .cc-banner
+) {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* YouTube Anti-Adblock modal bypass */
+ytd-enforcement-message-view-model,
+.ytd-popup-container:has(ytd-enforcement-message-view-model),
+tp-yt-paper-dialog:has(#feedback.ytd-enforcement-message-view-model) {
+  display: none !important;
+}
+

@@ -1,0 +1,25 @@
+# OS generated files
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# Chrome packaging & local metadata
+*.crx
+*.pem
+_metadata/
+
+# Node / Editor
+node_modules/
+.vscode/
+.idea/
+*.log
