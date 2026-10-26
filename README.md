@@ -29,7 +29,7 @@ A fast, lightweight, and powerful Manifest V3 Chrome Extension that blocks intru
 - **Right-Click Context Menu ("Block this element")**: Right-click on any annoying element, badge, or image to remove it instantly with persistent custom rule storage.
 - **Element Picker & Rules Manager**: Interactive visual element zapper HUD and a dedicated Manager tab in the popup to review, delete, and backup/restore custom rules.
 - **Universal Anti-Adblock Defuser**: Spoofs global bait variables and honeypots so download sites and streaming players function without "Disable AdBlock" walls.
-- **Auto Remote Filter Sync**: Periodically syncs and compiles new ad domains from remote filter lists without requiring extension updates.
+- **Auto GitHub Filter & Code Update Sync**: Automatically syncs newly committed ad rules and domains directly from `rayhanvision-a11y/AddFree` on GitHub in real time (on install, on browser startup, and every 6 hours via Chrome alarms). Also checks for new releases on GitHub and notifies the user directly inside the popup badge.
 
 ## Adding Custom Ad Domains
 Add the target domain to `tools/domains.txt` under either `[popup]` or `[display]`, then run:

@@ -93,8 +93,10 @@ async function syncRules() {
   await chrome.declarativeNetRequest.updateDynamicRules({ removeRuleIds, addRules });
 }
 
-// ---------- Remote Filter List Sync (GitHub/Online) ----------
-const REMOTE_FILTER_URL = 'https://raw.githubusercontent.com/ragib-hasan/AddFree-filters/main/domains.txt';
+// ---------- Remote Filter & Updates Sync (GitHub) ----------
+const GITHUB_REPO_RAW = 'https://raw.githubusercontent.com/rayhanvision-a11y/AddFree/main';
+const REMOTE_FILTER_URL = `${GITHUB_REPO_RAW}/tools/domains.txt`;
+const REMOTE_MANIFEST_URL = `${GITHUB_REPO_RAW}/manifest.json`;
 
 async function syncRemoteFilterList() {
   try {
@@ -112,7 +114,24 @@ async function syncRemoteFilterList() {
     await chrome.storage.local.set({ remoteDomains: domains, lastFilterUpdate: lastUpdate });
     await refreshAdDomains();
     await syncRules();
-    return { success: true, count: domains.length, lastUpdate };
+
+    // Also check for newer extension version released on GitHub
+    let updateAvailable = null;
+    try {
+      const vRes = await fetch(REMOTE_MANIFEST_URL, { cache: 'no-cache' });
+      if (vRes.ok) {
+        const remoteManifest = await vRes.json();
+        const currentVersion = chrome.runtime.getManifest().version;
+        if (remoteManifest && remoteManifest.version && remoteManifest.version !== currentVersion) {
+          updateAvailable = remoteManifest.version;
+          await chrome.storage.local.set({ updateAvailable });
+        } else {
+          await chrome.storage.local.remove('updateAvailable');
+        }
+      }
+    } catch (ve) {}
+
+    return { success: true, count: domains.length, lastUpdate, updateAvailable };
   } catch (err) {
     return { success: false, error: err.message || 'Offline' };
   }
@@ -139,23 +158,28 @@ try {
 } catch (e) {}
 
 try {
-  chrome.alarms.create('check_remote_filter_update', { periodInMinutes: 1440 });
+  // Check and sync from GitHub every 6 hours
+  chrome.alarms.create('check_remote_filter_update', { periodInMinutes: 360 });
   chrome.alarms.onAlarm.addListener((alarm) => {
     if (alarm.name === 'check_remote_filter_update') syncRemoteFilterList();
   });
 } catch (e) {}
 
-chrome.runtime.onInstalled.addListener(async () => {
+chrome.runtime.onInstalled.addListener(async (details) => {
   const s = await getSettings();
   await chrome.storage.local.set(s);
   await refreshAdDomains();
   await syncRules();
   setupContextMenu();
+  // Auto-fetch latest rules from GitHub right after installation or update
+  syncRemoteFilterList();
 });
 chrome.runtime.onStartup.addListener(async () => {
   await refreshAdDomains();
   await syncRules();
   setupContextMenu();
+  // Background check on browser start
+  syncRemoteFilterList();
 });
 
 // Primary tab origin hostname for whitelist check
@@ -276,7 +300,7 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
         }
         const host = tab ? hostOf(tab.url) : '';
         const s = await getSettings();
-        const { lastFilterUpdate = 0, remoteDomains = [] } = await chrome.storage.local.get(['lastFilterUpdate', 'remoteDomains']);
+        const { lastFilterUpdate = 0, remoteDomains = [], updateAvailable = null } = await chrome.storage.local.get(['lastFilterUpdate', 'remoteDomains', 'updateAvailable']);
         let count = 0;
         let total = 0;
         if (msg.tabId != null) {
@@ -296,6 +320,8 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
           blockCookies: s.blockCookies,
           cleanUrls: s.cleanUrls,
           lastFilterUpdate,
+          updateAvailable,
+          version: chrome.runtime.getManifest().version,
           totalRules: adDomains.length + remoteDomains.length
         });
       } catch (err) {

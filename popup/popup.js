@@ -59,6 +59,16 @@ function render() {
     $('lastUpdated').textContent = formatDate(state.lastFilterUpdate);
   }
 
+  const updateBanner = $('updateBanner');
+  if (updateBanner) {
+    if (state.updateAvailable) {
+      $('newVer').textContent = state.updateAvailable;
+      updateBanner.hidden = false;
+    } else {
+      updateBanner.hidden = true;
+    }
+  }
+
   const note = $('note');
   note.hidden = true;
   if (!state.enabled) {
@@ -206,10 +216,14 @@ $('updateBtn').addEventListener('click', async () => {
   btnTxt.textContent = 'Update Filters';
   const note = $('note');
   if (res && res.success) {
-    note.textContent = `Filters updated successfully! (${res.count} online rules)`;
+    if (res.updateAvailable) {
+      note.textContent = `Synced ${res.count} rules from GitHub! New v${res.updateAvailable} is ready to download.`;
+    } else {
+      note.textContent = `Synced ${res.count} ad rules from GitHub! You are up to date.`;
+    }
     note.hidden = false;
   } else {
-    note.textContent = 'Filter check complete.';
+    note.textContent = res && res.error ? `Sync notice: ${res.error}` : 'Filter check complete.';
     note.hidden = false;
   }
   refresh();
