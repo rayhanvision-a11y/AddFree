@@ -20,6 +20,7 @@ _metadata/
 
 # Node / Editor
 node_modules/
+dist/
 .vscode/
 .idea/
 *.log
